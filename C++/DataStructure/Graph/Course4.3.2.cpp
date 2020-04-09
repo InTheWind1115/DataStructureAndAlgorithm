@@ -1,7 +1,7 @@
 #include<iostream>
 #include<cstring>
 using namespace std;
-
+#include<queue>
 #define INF 0x3f3f3f3f
 #define NumEdges 10000//边条数 
 #define NumVertices 100//顶点个数
@@ -99,9 +99,40 @@ void createMTGraph(MTGraph &g) {
     }
 }
 
+int visit[NumVertices], count, bfn[NumVertices];//bfn 是广度优先编号
+void bfs(MTGraph g, int v) {
+    int i;
+    queue<int> qu;
+    visit[v] = 1;
+    bfn[v] = count++;
+    qu.push(v);
+    while (!qu.empty()) {
+        v = qu.front();
+        qu.pop();
+        for (i = 0; i < g.n; i++) {
+            if (g.edge[v][i] != 0 && visit[i] == 0) {
+                visit[i] = 1;
+                bfn[i] = count++;
+                qu.push(i);
+            }
+        }
+    }
+
+}
+
 int main() {
+    int i;
     MTGraph g;
     createMTGraph(g);
+    memset(visit, 0, sizeof(visit));
+    count = 1;
+    for (i = 0; i < g.n; i++) {
+        if (visit[i] == 0)
+            bfs(g, i); 
+    }
+
+
+
     system("pause");
     return 0;
 }
