@@ -1,6 +1,7 @@
 #include<iostream>
 #include<queue>
 using namespace std;
+#define INF 0x3f3f3f3f
 #define NumVertices 100
 typedef string EdgeData;
 typedef int VertexData;
@@ -135,9 +136,89 @@ int TopSort(AdjGraph g) {
 
 int main() {
     int i, count;
+    int j, k;
     AdjGraph g;
     createAdjGraph(g);
+    if (TopSort(g) == 0) {
+        cout<<"此图包含环路!"<<endl;
+    }
 
+    EdgeNode *h;
+    int ve[NumVertices] = {0};
+    ve[topsort[0]] = 0;
+    for (i = 0; i < g.n; i++) {
+        k = topsort[i];
+        h = g.vexList[i].firstEdge;
+        if (h != NULL) 
+            h = h ->  next;
+        while (h != NULL) {
+            j = h -> adjvex;
+            ve[j] = max(ve[j], ve[k] + h->cost);
+            h = h -> next;
+        }
+    }
+
+    int E[NumVertices][NumVertices];
+    memset(E, -1, sizeof(E));
+    for (i = 1; i <= g.n; i++) {
+        h = g.vexList[i].firstEdge;
+        if (h != NULL) 
+            h = h ->  next;
+        while (h != NULL) {
+            j = h -> adjvex;
+            E[i][j] = ve[i];
+            h = h -> next;
+        }
+    }
+
+    int VL[NumVertices];
+    for (i = 0; i < NumVertices; i++) {
+        VL[i] = INF;
+    }
+    VL[topsort[g.n - 1]] = ve[topsort[g.n - 1]];
+    for (i = g.n - 2; i >= 0; i--) {
+        k = topsort[i];
+        h = g.vexList[i].firstEdge;
+        if (h != NULL) 
+            h = h ->  next;
+        while (h != NULL) {
+            j = h -> adjvex;
+            VL[j] = min(VL[k], VL[j] - h->cost);
+            h = h -> next;
+        }
+    }
+    
+    int L[NumVertices][NumVertices];
+    memset(L, -1, sizeof(-1));
+    for (i = 1; i <= g.n; i++) {
+        h = g.vexList[i].firstEdge;
+        if (h != NULL) 
+            h = h ->  next;
+        while (h != NULL) {
+            j = h -> adjvex;
+            L[i][j] = VL[j] - h->cost;
+            h = h -> next;
+        }
+    }
+
+    for (i = 1; i <= g.n; i++) {
+        h = g.vexList[i].firstEdge;
+        if (h != NULL) 
+            h = h ->  next;
+        while (h != NULL) {
+            j = h -> adjvex;
+            if (L[i][j] = E[i][j] && L[i][j] != -1) {
+                cout<<i<<','<<j<<','<<h->cost<<endl;
+            }
+            h = h -> next;
+        }
+    } 
+    
+    
+
+
+
+    
 
 
     //`memset(visited, 0, sizeof(visited));

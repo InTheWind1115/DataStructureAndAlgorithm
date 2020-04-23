@@ -1,8 +1,8 @@
 #include<iostream>
-#include<queue>
 using namespace std;
 #define NumVertices 100
-typedef string EdgeData;
+#define INF 0x3f3f3f3f
+typedef int EdgeData;
 typedef int VertexData;
 
 //边
@@ -41,13 +41,12 @@ void newNode(AdjGraph &g, VertexData v) {
 }
 
 //这里针对无向图 【我觉得针对有向图】
-void setSucc(AdjGraph &g, int v1, int v2, EdgeData w) {
+void setSucc(AdjGraph &g, int v1, int v2) {
     if (isEdge(g, v1, v2))
         return;
-    //g.e++;
+    g.e++;
     EdgeNode *temp = new EdgeNode, *temp1 = g.vexList[v1].firstEdge;
     temp -> adjvex = v2;
-    temp -> cost = w;  
     temp -> next = temp1 -> next;
     temp1 -> next = temp;
 }
@@ -64,7 +63,7 @@ void createAdjGraph(AdjGraph &g) {
     for(i = 0; i < g.e; i++) {
         cin>>x>>y;
         setSucc(g, x, y); //对无向图而言
-        //setSucc(g, y, x);
+        setSucc(g, y, x);
     }
 }
 
@@ -87,64 +86,75 @@ void dfs(AdjGraph g, int x) {
 }
 
 
-int topsort[NumVertices];
-int TopSort(AdjGraph g) {
-    int indegree[NumVertices] = {0};
-    int i, k, j;
-    EdgeNode *h;
+//st: 源点的编号
+void dijkstra(AdjGraph g, int st,int d[NumVertices], int path[NumVertices]) {
+    int i, s[NumVertices];
+    int j;
     for (i = 1; i <= g.n; i++) {
-        h = g.vexList[i].firstEdge;
-        if (h != NULL) 
-            h = h ->  next;
-        while (h != NULL) {
-            indegree[h -> adjvex]++;
-            h = h -> next;
+        d[i] = INF;
+        path[i] = st;
+    }
+    s[st] = 1; //将源点加入s
+    EdgeNode *p;
+    p = g.vexList[st].firstEdge;
+    if (p != NULL)
+        p = p->next;
+    while (p) {
+        j = p -> adjvex;
+        d[j] = p->cost;
+        p = p->next;
+    }
+
+    int t = g.n - 2;
+    int min, w;
+    while (t--) {
+        min = INF;
+        for (i = 1; i <= g.n; i++) {
+            if (s[i] == 0 && d[i] < min) {
+                min = d[i];
+                w = i;
+            }
         }
-    }
-    queue<int> qu;
-    for (i = 1; i <= g.n; i++) {
-        if (indegree[i] == 0)
-            qu.push(i);
-    }
-    while (!qu.empty()) {
-        k = qu.front();
-        topsort[count++] = k; //count begin at 0
-        qu.pop();
-        h = g.vexList[k].firstEdge;
-        if (h != NULL) 
-            h = h ->  next;
-        while (h != NULL) {
-            j = h -> adjvex;
-            indegree[j]--;
-            if (indegree[j] == 0)
-                qu.push(j);
-            h = h -> next;
+        s[w] = 1;
+
+        p = g.vexList[w].firstEdge;
+        if (p != NULL)
+            p = p->next;
+        while (p) {
+            j = p -> adjvex; //<w, j>为一条边
+            if (s[j] == 0 && d[j] > d[w] + p->cost) {
+                d[j] = d[w] + p->cost;
+                path[j] = w;
+            }
+
+            p = p->next;
         }
+        
     }
-    if (count < g.n) {
-        cout<<"此图包含环路！"<<endl;
-        return 0;
-    } else {
-        for (i = 0; i < g.n; i++) {
-            cout<<topsort[i]<<' ';
-        }
-        cout<<endl;
-        return 1;
-    }
+    
 }
 
+//求st -> en 的路径
+void path(int st, int en, int p[NumVertices]) {
+    if (en == st) {
+        return;
+    }
+    path(st, p[en], p);
+
+    cout<<en<<'-';
+}
 int main() {
     int i, count;
     AdjGraph g;
     createAdjGraph(g);
+    // print(g);
 
-
-
-    //`memset(visited, 0, sizeof(visited));
-    count = 1;
-    for(i = 0; i < g.n; i++) {
-        if (visited[i] == 0) {
-            dfs(g, i);
-        }
+    int d[NumVertices], p[NumVertices];
+    dijkstra(g, 1, d, p);
+    for (i = 2; i <= g.n; i++) {
+        cout<<"1->"<<i<<':'<<d[i];
     }
+    path(1, 5, p);
 }
+
+
