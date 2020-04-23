@@ -41,12 +41,13 @@ void newNode(AdjGraph &g, VertexData v) {
 }
 
 //这里针对无向图 【我觉得针对有向图】
-void setSucc(AdjGraph &g, int v1, int v2) {
+void setSucc(AdjGraph &g, int v1, int v2, EdgeData w) {
     if (isEdge(g, v1, v2))
         return;
-    g.e++;
+    //g.e++;
     EdgeNode *temp = new EdgeNode, *temp1 = g.vexList[v1].firstEdge;
     temp -> adjvex = v2;
+    temp -> cost = w;  
     temp -> next = temp1 -> next;
     temp1 -> next = temp;
 }

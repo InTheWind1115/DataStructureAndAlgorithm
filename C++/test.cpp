@@ -14,6 +14,7 @@ int main() {
     string s = "hello";
     cout<<s<<endl;
     cout<<"Hello"<<endl;
-    system("pause");
+    int sy;
+    cin>>sy;
     return 0;
 }

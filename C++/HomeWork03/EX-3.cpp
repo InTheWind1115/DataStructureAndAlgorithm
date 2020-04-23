@@ -56,11 +56,30 @@ void rInsert(thTree s, thTree r) {
     r -> rChild = s -> rChild;
     r -> lTag = false;
     r -> lChild = s;
+
     s -> rChild = r;
     s -> rTag = true;
+
     if (r -> rTag == true) {
         thTree v = inNext(r);
         v -> lChild = r;
+    }
+}
+
+//将节点r插入为节点s的左孩子
+void lInsert(thTree s, thTree r) {
+    r -> lTag = s -> lTag;
+    r -> lChild = s -> lChild;
+
+    r -> rTag = false;
+    r -> rChild = s;
+
+    s -> lChild = r;
+    s -> lTag = true;
+
+    if (r -> lTag == true) {
+        thTree v = preNext(r);
+        v -> rChild = r;
     }
 }
 
@@ -77,9 +96,9 @@ thTree preNext(thTree p) {
 }
 
 int main() {
-    string s = "hello";
-    cout<<s<<endl;
-    cout<<"Hello"<<endl;
+
+
+    
     system("pause");
     return 0;
 }
