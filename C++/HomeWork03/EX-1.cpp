@@ -71,11 +71,11 @@ int main() {
     t3 = createBT(5, NULL, NULL);
     t3 = createBT(3, t1, t2);
     t1 = createBT(1, t2, t3);
-    cout<<"此二叉树的前序遍历序列为：\n";
+    cout<<"preoder sort:\n";
     preOrder(t1);
     cout<<'\n';
     cout<<"=============================="<<endl;
-    cout<<"此二叉树节点度为2的个数为：\n"<<count2(t1);
+    cout<<"the node with two degree\n"<<count2(t1);
     int sy;
     cin>>sy;
     return 0;

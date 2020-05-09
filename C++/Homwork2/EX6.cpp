@@ -8,7 +8,7 @@ typedef int elementtype;
 
 typedef struct node{
     elementtype eles[maxsize];
-    int top;//栈顶元素的下标
+    int top;//????????±?
     node() : top(0) {};
 }stack;
 
@@ -29,7 +29,7 @@ void makeNull(stack &s) {
 
 void pop(stack &s) {
     if (empty(s)) {
-        error("栈为空！");
+        error("?????");
         return;
     }
     s.top--;
@@ -37,7 +37,7 @@ void pop(stack &s) {
 
 void push(elementtype x, stack &s) {
      if (s.top == maxsize - 1) {
-         error("栈已满,添加失败！");
+         error("?????,????????");
          return;
      }
      s.top++;
@@ -58,7 +58,7 @@ void convert(int num, stack &s, int n) {
 
 int main() {
     stack s;
-    cout<<"189的二进制为:"<<'\t';
+    cout<<"189的二进制代码为:"<<'\t';
     convert(189, s, 2);
     system("pause");
     return 0;

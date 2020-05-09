@@ -25,11 +25,11 @@ void error(string str) {
     cout<<str<<endl;
 }
 
-//在p节点后面位置处插入一个新的节点
+//??p??????λ???????????????
 void insert (elementtype x, position p, List &l) {
     celltype *q = new celltype;
     if (q == NULL) {
-        //error("创建节点失败！");
+        //error("???????????");
         return;
     }
     q -> element = x;
@@ -37,18 +37,18 @@ void insert (elementtype x, position p, List &l) {
     p -> next = q;
 }
 
-//删除p节点后面的一个节点
+//???p?????????????
 void del (position p, List &l) {
     celltype * q = p -> next;
     if(q == NULL) {
-        //error("删除节点失败！");
+        //error("??????????");
         return;
     }
     p -> next = q -> next;
     delete q;
 }
 
-//此链表带有头节点，故如此返回
+//??????????????????????
 celltype *first(List l) {
     return l -> next;
 }
@@ -76,7 +76,7 @@ elementtype retrieve(position p, List l) {
 
 position next(position p, List l) {
     if(p == NULL) {
-        //error("无效位置！");
+        //error("??Чλ???");
         return NULL;
     }
     return p -> next;
@@ -138,7 +138,7 @@ void copy(List &dest, List src) {
 
 List add(List a, List b) {
     List c = new celltype;
-    position t = c;//t始终指向链表的最后一个元素
+    position t = c;//t?????????????????????
     position p = a -> next;
     position q = b -> next;
     while (p != NULL || q != NULL)
@@ -188,7 +188,7 @@ List multiply(List a, List b) {
 
 int main()
 {
-    cout<<"加法："<<endl;
+    cout<<"前："<<endl;
     List header3 = new celltype;
     insert({3, 1}, header3, header3);
     insert({2, 0}, header3, header3);
@@ -201,7 +201,7 @@ int main()
     List header5 = add(header3, header4);
     print(header5);
 
-    cout<<"\n乘法："<<endl;
+    cout<<"\n后："<<endl;
     List header1 = new celltype;
     insert({3, 1}, header1, header1);
     insert({2, 0}, header1, header1);

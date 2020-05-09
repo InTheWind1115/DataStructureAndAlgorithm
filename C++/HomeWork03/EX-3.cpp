@@ -15,6 +15,7 @@ struct node {
     node *lChild, *rChild;
     bool lTag, rTag;//true指向孩子，false指向前/后驱
 };
+
 typedef node *thTree;
 
 thTree inNext(thTree p) {
@@ -38,7 +39,19 @@ thTree inPre(thTree p) {
 }
 
 void visit(thTree t) {
-    cout<<t -> data<<endl;
+    cout<<t -> data<<'\t';
+}
+
+thTree preNext(thTree p) {
+    if (p -> lTag == true) {
+        return p -> lChild;
+    } else {
+        thTree q = p;
+        while (q -> rTag == false)  {
+            q = q -> rChild;
+        }
+        return q -> rChild;
+    }
 }
 
 void thInOrder(thTree h) {
@@ -83,20 +96,23 @@ void lInsert(thTree s, thTree r) {
     }
 }
 
-thTree preNext(thTree p) {
-    if (p -> lTag == true) {
-        return p -> lChild;
-    } else {
-        thTree q = p;
-        while (q -> rTag == false)  {
-            q = q -> rChild;
-        }
-        return q -> rChild;
-    }
-}
+
 
 int main() {
 
+
+    thTree t1 = new node();
+    thTree t2 = new node();
+    thTree t3 = new node();
+
+    t1->data = 1;
+    t2->data = 2;
+    t3->data = 3;
+
+    lInsert(t1, t2);
+    rInsert(t1, t3);
+
+    thInOrder(t1);
 
     
     system("pause");
