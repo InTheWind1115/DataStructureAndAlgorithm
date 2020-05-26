@@ -49,3 +49,8 @@ int index_search(keytype k, int last, int blocks, INDEX ix, LIST F, int L) {
 int main() {
     return 0;
 }
+
+// 14 5 3
+// 22 12 13 9 8 33 42 44 38 24 48 60 58 74 47
+// 22 44 74
+// @全体成员 明天程序的测试数据（分块排序，上面的那个main函数也是分块排序）
